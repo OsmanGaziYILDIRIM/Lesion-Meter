@@ -11,7 +11,7 @@ When we start the program, the menu screen appears. While this screen is loading
 The filtering of the values retrieved from Firebase is achieved with the value entered into the text bar. Each value entered into the text bar is matched with the suggested values and listed under 'Recents:'. A maximum of 7 values can be displayed in this section. The process of fetching data from Firebase is provided by the retrievePatientsFromFirebase() method. Since this method is called in the "initState" method, it is only available at the beginning of the program.
 
 "Future<void> retrievePatientsFromFirebase() async" method:
-![Related Image](https://i.imgur.com/a/9z5Ht0x.png)
+![Related Image](https://i.imgur.com/kh2hBne.png)
 
 After entering a value into the text bar and clicking the "Enter" key on the keyboard, the "Home Page screen" opens.
 
@@ -26,7 +26,7 @@ In the "New Lesion" screen, there is a camera button to take a photo and a "Done
 The code of "The actual dimensions of the reference card and the red box created by reducing it to a certain extent on the screen" :
 ![Related Image](https://i.imgur.com/ZcxPrne.png)
 
-State of card box on the screen
+State of card box on the screen:
 ![Related Image](https://i.imgur.com/FE2vdxT.png)
 
 After the image is taken, the area is calculated by drawing the lesion on the screen.The area of the lesion is calculated from the area of each pixel calculated relative to the area of the reference card. The lesion area in each captured image is displayed on the screen. 
@@ -46,7 +46,7 @@ To go back to the login screen, the user can click the back button on this scree
 The identity information entered from the menu screen is also transferred to this screen. The transferred value is stored in the "String patientId" property. Depending on this value, the "retrieveImagesFromFirebase" method, which is run in the "initState" method, loads the relevant lesion photos pulled from Firebase onto the screen.
 
 "Future<void> retrieveImagesFromFirebase() async" method:
-![Related Image](https://i.imgur.com/a/uiCknFQ.png)
+![Related Image](https://i.imgur.com/UvHJlNK.png)
 
 The loaded photos can be enlarged to full screen with the "DetailScreen" class and can be zoomed in/out with the "InteractiveViewer" widget property.
 On this screen, some information is printed on the loaded photos according to our rules of keeping files on Firebase. 
