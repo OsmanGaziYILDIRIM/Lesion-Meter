@@ -86,7 +86,7 @@ class _MenuPageState extends State<MenuPage> {
               controller: _textEditingController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Sayısal değer girin',
+                labelText: 'Enter id.',
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.indigo, width: 2),
                 ),
@@ -102,7 +102,7 @@ class _MenuPageState extends State<MenuPage> {
               },
             ),
             SizedBox(height: 10),
-            Text('Recents:'),
+            Text(filteredSuggestions.length == 0 ? 'Recents: No data yet.' : 'Recents:'),
             Expanded(
               child: Scrollbar(
                 child: ListView.builder(

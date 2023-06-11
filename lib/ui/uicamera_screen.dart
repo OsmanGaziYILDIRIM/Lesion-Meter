@@ -65,7 +65,7 @@ class _CameraScreenState extends State<CameraScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    cardWidth = screenWidth * (4 / 5);
+    cardWidth = screenWidth * (3 / 5);
     cardHeight = (cardWidth / 85.6) * 53.98;
 
     boundingBox = Rect.fromLTWH(

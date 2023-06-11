@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.indigo,
       ),
       navigatorKey: navigatorKey,
+      debugShowCheckedModeBanner: false,
       home: MenuPage(onSubmit: (value) {
         // Menüden gelen değeri alıp ana sayfaya geçiş yap
         navigatorKey.currentState?.push(
