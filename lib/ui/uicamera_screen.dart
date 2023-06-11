@@ -121,23 +121,21 @@ class _CameraScreenState extends State<CameraScreen> {
             FloatingActionButton(
               heroTag: "btn2",
               onPressed: () {
+                final strLesionArea = totalLesionArea.toStringAsFixed(2);
                 showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
                       title: Text('Total Lesion Area'),
-                      content: Text('Total Lesion Area: $totalLesionArea cm^2 in $totalImages images.'),
+
+                      content: Text('Total Lesion Area: $strLesionArea cm^2 in $totalImages images.'),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);
-                            uploadFile(_images, totalLesionArea.toString(), widget.patientId).then((_)
+                            uploadFile(_images, strLesionArea, widget.patientId).then((_)
                             {
-                              MyHomePageState.of(context).widget.lastGuestImages.addAll(_images);
-                              MyHomePageState.of(context).widget.lastGuestActionDateTime = DateTime.now().toString();
-
                               _images.clear();
-
                             });
                             totalLesionArea=0;
                             totalImages=0;
@@ -238,9 +236,10 @@ class _CameraScreenState extends State<CameraScreen> {
     showDialog(
       context: context,
       builder: (context) {
+        final strLesionArea = lesionArea.toStringAsFixed(2);
         return AlertDialog(
           title: Text('Lesion Area'),
-          content: Text('Lesion Area: $lesionArea cm^2'),
+          content: Text('Lesion Area: $strLesionArea cm^2'),
           actions: [
             TextButton(
               onPressed: () {
@@ -304,12 +303,12 @@ uploadFile(List<File> images, String surfaceArea, String patientId) async {
   final dateFormat = DateFormat('dd.MM.yyyy HH:mm:ss');
   final formattedTime = dateFormat.format(DateTime.now());
 
-  final path = '$patientId/$formattedTime';
+  final path = '$patientId/$formattedTime Lesion S. Area: $surfaceArea';
 
   final storage = FirebaseStorage.instance;
 
   for (int i=0; i < images.length; ++i) {
-    final ref = storage.ref().child('$path/${surfaceArea}${i}.jpg');
+    final ref = storage.ref().child('$path/$i.jpg');
     await ref.putFile(images[i]);
   }
 }

@@ -10,10 +10,8 @@ String decodeUrl(String url) {
 
 class LastSavedLesions extends StatefulWidget {
   final String patientId;
-  final List<File> lastGuestImages;
-  final String lastGuestActionDateTime;
 
-  const LastSavedLesions({Key? key, required this.lastGuestImages, required this.lastGuestActionDateTime, required this.patientId}) : super(key: key);
+  const LastSavedLesions({Key? key, required this.patientId}) : super(key: key);
 
   get lastGuestImageDateTime => null;
 
@@ -31,12 +29,6 @@ class _LastSavedLesionsState extends State<LastSavedLesions> {
     super.initState();
     if (widget.patientId.isNotEmpty) {
       retrieveImagesFromFirebase();
-    }
-    else
-    {
-      setState(() {
-        downloadedImageData[widget.lastGuestImageDateTime] = widget.lastGuestImages.cast<String>();
-      });
     }
   }
 
@@ -84,7 +76,7 @@ class _LastSavedLesionsState extends State<LastSavedLesions> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                folderName,
+                folderName + ' cm²',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -96,16 +88,23 @@ class _LastSavedLesionsState extends State<LastSavedLesions> {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
-                shrinkWrap: true,  // Ensures that the GridView fits within the Column
-                physics: ScrollPhysics(),  // Allows scrolling within the GridView
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
                 itemCount: imageUrls?.length ?? 0,
                 itemBuilder: (context, innerIndex) {
                   final imageUrl = imageUrls?[innerIndex] ?? '';
 
                   return imageUrl.isNotEmpty
-                      ? Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
+                      ? GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return DetailScreen(imageUrl: imageUrl, appText: folderName);
+                      }));
+                    },
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   )
                       : Container();
                 },
@@ -113,6 +112,30 @@ class _LastSavedLesionsState extends State<LastSavedLesions> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class DetailScreen extends StatelessWidget {
+  final String imageUrl;
+  final String appText;
+
+  DetailScreen({required this.imageUrl, required this.appText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(appText),
+      ),
+      body: Center(
+        child: InteractiveViewer(
+          child: Image.network(imageUrl),
+          minScale: 1.0,
+          maxScale: 2.0,
+          boundaryMargin: EdgeInsets.all(100),
+        ),
       ),
     );
   }

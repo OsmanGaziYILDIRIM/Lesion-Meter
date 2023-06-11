@@ -9,8 +9,6 @@ import 'dart:core';
 class MyHomePage extends StatefulWidget {
   final CameraDescription camera;
   final String patientId;
-  List<File> lastGuestImages = [];
-  String lastGuestActionDateTime = "";
 
   MyHomePage({
     Key? key,
@@ -58,7 +56,7 @@ class MyHomePageState extends State<MyHomePage>
         controller: _tabController,
         children: [
           CameraScreen(camera: widget.camera, patientId: widget.patientId),
-          LastSavedLesions(lastGuestImages: widget.lastGuestImages, lastGuestActionDateTime: widget.lastGuestActionDateTime, patientId: widget.patientId),
+          LastSavedLesions(patientId: widget.patientId),
         ],
       ),
     );

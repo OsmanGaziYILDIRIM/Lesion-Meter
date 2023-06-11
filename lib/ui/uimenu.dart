@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class MenuPage extends StatefulWidget {
   final ValueChanged<String> onSubmit;
@@ -17,26 +18,28 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   TextEditingController _textEditingController = TextEditingController();
-  Map<int, String> suggestionMap = {
-    115552: 'armut',
-    2225: 'xalma',
-    444: 'xacuka',
-    12100: 'bxıcırık',
-    1512: 'xbamya',
-    2252: 'xcuce',
-    1155523: 'armuxt',
-    22255: 'alaxma',
-    44443: 'acuxka',
-    121003: 'bıcıxrık',
-    15122: 'baxmya',
-    22521: 'cuxce',
-  };
+  Map<int, String> suggestionMap = {};
   List<String> filteredSuggestions = [];
 
   @override
   void initState() {
     super.initState();
+    retrievePatientsFromFirebase();
     _textEditingController.addListener(filterSuggestions);
+  }
+
+  Future<void> retrievePatientsFromFirebase() async {
+    try {
+      final ListResult listResult = await FirebaseStorage.instance.ref().listAll();
+      final List<Reference> folderRefs = listResult.prefixes;
+
+      for (final Reference folderRef in folderRefs) {
+        print('Foldername: ${folderRef.name}');
+        suggestionMap[int.parse(folderRef.name)] = "";
+      }
+    } catch (e) {
+      print('Firebase Storage retrieve patients error: $e');
+    }
   }
 
   void filterSuggestions() {
@@ -46,7 +49,7 @@ class _MenuPageState extends State<MenuPage> {
           .where((entry) =>
       entry.key.toString().startsWith(filterText) ||
           entry.value.toLowerCase().startsWith(filterText))
-          .map((entry) => '${entry.key} (${entry.value})')
+          .map((entry) => '${entry.key}')
           .toList();
     });
   }
@@ -99,11 +102,11 @@ class _MenuPageState extends State<MenuPage> {
               },
             ),
             SizedBox(height: 10),
-            Text('Öneriler:'),
+            Text('Recents:'),
             Expanded(
               child: Scrollbar(
                 child: ListView.builder(
-                  itemCount: filteredSuggestions.length > 6 ? 6 : filteredSuggestions.length,
+                  itemCount: filteredSuggestions.length > 7 ? 7 : filteredSuggestions.length,
                   physics: BouncingScrollPhysics(), // veya ClampingScrollPhysics()
                   itemBuilder: (context, index) {
                     return Container(
@@ -112,7 +115,8 @@ class _MenuPageState extends State<MenuPage> {
                         title: Text(filteredSuggestions[index]),
                         onTap: () {
                           _textEditingController.text = filteredSuggestions[index].split(' ')[0];
-                        },
+                          widget.onSubmit(_textEditingController.text);
+                          },
                       ),
                     );
                   },
@@ -122,18 +126,6 @@ class _MenuPageState extends State<MenuPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          widget.onSubmit("");
-        },
-        label: Text(
-          'Continue as a guest.',
-          style: TextStyle(fontSize: 12),
-          textAlign: TextAlign.center,
-        ),
-        backgroundColor: Colors.indigo,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
