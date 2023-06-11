@@ -11,7 +11,7 @@ When we start the program, the menu screen appears. While this screen is loading
 The filtering of the values retrieved from Firebase is achieved with the value entered into the text bar. Each value entered into the text bar is matched with the suggested values and listed under 'Recents:'. A maximum of 7 values can be displayed in this section. The process of fetching data from Firebase is provided by the retrievePatientsFromFirebase() method. Since this method is called in the "initState" method, it is only available at the beginning of the program.
 
 "Future<void> retrievePatientsFromFirebase() async" method:
-![GitHub Logo](https://i.imgur.com/a/9z5Ht0x)
+![Related Image](https://i.imgur.com/a/9z5Ht0x.png)
 
 After entering a value into the text bar and clicking the "Enter" key on the keyboard, the "Home Page screen" opens.
 
@@ -24,16 +24,17 @@ There are two tab buttons in this screen. These tab buttons allow us to access t
 
 In the "New Lesion" screen, there is a camera button to take a photo and a "Done" button to finish the measurement. There is a red box on the screen. To capture a photo, the user aligns a known and fixed-size reference card with this box and clicks the camera button.
 The code of "The actual dimensions of the reference card and the red box created by reducing it to a certain extent on the screen" :
-![GithubLogo](https://i.imgur.com/ZcxPrne)
+![Related Image](https://i.imgur.com/ZcxPrne.png)
 
 State of card box on the screen
-![GithubLogo](https://i.imgur.com/FE2vdxT)
+![Related Image](https://i.imgur.com/FE2vdxT.png)
 
-After the image is taken, the area is calculated by drawing the lesion on the screen.The area of the lesion is calculated from the area of each pixel calculated relative to the area of the reference card. The lesion area in each captured image is displayed on the screen. ![GithubLogo](https://i.imgur.com/aOBlgei)
+After the image is taken, the area is calculated by drawing the lesion on the screen.The area of the lesion is calculated from the area of each pixel calculated relative to the area of the reference card. The lesion area in each captured image is displayed on the screen. 
+![Related Image](https://i.imgur.com/aOBlgei.png)
 
 Afterwards, the user is prompted to capture a photo from a different angle.
 After taking enough photos, the measurement is completed by clicking the done button. The result of the measurement is displayed. This result is saved on firebase server. 
-[GithubLogo](https://i.imgur.com/WIxVHhv)
+![Related Image](https://i.imgur.com/WIxVHhv.png)
 
 Note: If the user think they have taken enough photos and presses the done button, and switches to the "Last Saved Lesion Screen" without waiting, the requested upload and download operations from the Firebase Storage server could cause a bug. This is because if the previously taken photos haven't finished uploading, they can't be successfully retrieved from the server. Therefore, in the current version of the program, it is recommended to wait 2-3 seconds before changing tabs after clicking the done button.
   
@@ -45,7 +46,7 @@ To go back to the login screen, the user can click the back button on this scree
 The identity information entered from the menu screen is also transferred to this screen. The transferred value is stored in the "String patientId" property. Depending on this value, the "retrieveImagesFromFirebase" method, which is run in the "initState" method, loads the relevant lesion photos pulled from Firebase onto the screen.
 
 "Future<void> retrieveImagesFromFirebase() async" method:
-![GitHub Logo](https://i.imgur.com/a/uiCknFQ)
+![Related Image](https://i.imgur.com/a/uiCknFQ.png)
 
 The loaded photos can be enlarged to full screen with the "DetailScreen" class and can be zoomed in/out with the "InteractiveViewer" widget property.
 On this screen, some information is printed on the loaded photos according to our rules of keeping files on Firebase. 
@@ -57,15 +58,15 @@ Some rules were used when keeping files on the Firebase Storage server. Thanks t
 The name of the file is stored by indexing. In a lesion surface area measurement process, all images are indexed and uploaded to the Firebase Storage server in a for loop, no matter how many photos have been used.
 
 The method related to the process, "uploadFile(List<File> images, String surfaceArea, String patientId) async":
-![GitHub Logo](https://i.imgur.com/Ero1zCS)
+![Related Image](https://i.imgur.com/Ero1zCS.png)
 
 As a result of these file storage rules used, files or information about files can be retrieved from the server in a neat and desired way later.
 
 # file storing rules in "FireBase Storage"
 
 Some images formed in the Firebase Storage server according to the rules mentioned in the section "# how to store images in Firebase"
-![GitHub Logo](https://i.imgur.com/DKiNpfq)
+![Related Image](https://i.imgur.com/DKiNpfq.png)
   
-![GitHub Logo](https://i.imgur.com/BQqvZXv)
+![Related Image](https://i.imgur.com/BQqvZXv.png)
   
-![GitHub Logo](https://i.imgur.com/2IP9IhZ)
+![Related Image](https://i.imgur.com/2IP9IhZ.png)
